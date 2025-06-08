@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <link rel="stylesheet" href="styles/signup.css">
+</head>
+<body>
+  <h2>Your Dashboard</h2>
+  <div id="userInfo">Loading...</div>
+  <br>
+  <button onclick="logout()">Log Out</button>
+
+  <script>
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function loadUser() {
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (!user) {
+        window.location.href = "signin.html";
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from("profiles")
+        .select("username")
+        .eq("id", user.id)
+        .single();
+
+      if (error) return alert("Error loading profile: " + error.message);
+
+      document.getElementById("userInfo").innerText = `
+        Email: ${user.email}
+        \nUsername: ${data.username}
+        \nUser ID: ${user.id}
+      `;
+    }
+
+    async function logout() {
+      await supabaseClient.auth.signOut();
+      window.location.href = "index.html";
+    }
+
+    loadUser();
+  </script>
+</body>
+</html>
