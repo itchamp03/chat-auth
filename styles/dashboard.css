@@ -75,6 +75,15 @@ main.grid {
     transform: translateY(-2px) scale(1.02);
 }
 
+/* ...existing code... */
+card:active {
+    background: #4caf50;
+    color: #fff;
+    border: 1px solid #4caf50;
+    box-shadow: 0 4px 24px 0 rgba(60,60,67,0.10);
+    transform: translateY(-2px) scale(1.05);
+}
+
 .card:hover h3,
 .card:focus h3,
 .card:hover p,
