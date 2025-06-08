@@ -4,45 +4,82 @@
   <title>Dashboard</title>
   <script src="config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <link rel="stylesheet" href="styles/signup.css">
+  <link rel="stylesheet" href="styles/dashboard.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <h2>Your Dashboard</h2>
-  <div id="userInfo">Loading...</div>
-  <br>
-  <button onclick="logout()">Log Out</button>
-
+  <header>
+    <h2>dashboard</h2>
+    <button id="logoutBtn" title="log out">⎋</button>
+  </header>
+  <main class="grid">
+    <a class="card" href="networth.html">
+      <h3>net worth</h3>
+      <p id="networth">$—</p>
+    </a>
+    <a class="card" href="balance.html">
+      <h3>bank balance</h3>
+      <p id="balance">$—</p>
+    </a>
+    <a class="card" href="portfolio.html">
+      <h3>portfolio</h3>
+      <ul id="portfolioList">
+        <li>—</li>
+        <li>—</li>
+        <li>—</li>
+      </ul>
+    </a>
+    <a class="card" href="trade.html">
+      <h3>trade</h3>
+      <p>buy &amp; sell stocks</p>
+    </a>
+  </main>
   <script>
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    async function loadUser() {
+    async function loadDashboard() {
+      // Auth check
       const { data: { user } } = await supabaseClient.auth.getUser();
       if (!user) {
         window.location.href = "signin.html";
         return;
       }
 
-      const { data, error } = await supabaseClient
+      // Fetch user profile (net worth, balance, portfolio)
+      const { data: profile, error } = await supabaseClient
         .from("profiles")
-        .select("username")
+        .select("networth, balance, portfolio")
         .eq("id", user.id)
         .single();
 
-      if (error) return alert("Error loading profile: " + error.message);
-
-      document.getElementById("userInfo").innerText = `
-        Email: ${user.email}
-        \nUsername: ${data.username}
-        \nUser ID: ${user.id}
-      `;
+      if (!error && profile) {
+        document.getElementById("networth").textContent = profile.networth !== undefined ? `$${Number(profile.networth).toLocaleString()}` : "$—";
+        document.getElementById("balance").textContent = profile.balance !== undefined ? `$${Number(profile.balance).toLocaleString()}` : "$—";
+        // Portfolio: show up to 3 stocks
+        const portfolioList = document.getElementById("portfolioList");
+        portfolioList.innerHTML = "";
+        if (profile.portfolio && Array.isArray(profile.portfolio) && profile.portfolio.length > 0) {
+          profile.portfolio.slice(0, 3).forEach(stock => {
+            const li = document.createElement("li");
+            li.textContent = stock;
+            portfolioList.appendChild(li);
+          });
+        } else {
+          for (let i = 0; i < 3; i++) {
+            const li = document.createElement("li");
+            li.textContent = "—";
+            portfolioList.appendChild(li);
+          }
+        }
+      }
     }
 
-    async function logout() {
+    document.getElementById("logoutBtn").onclick = async () => {
       await supabaseClient.auth.signOut();
       window.location.href = "index.html";
-    }
+    };
 
-    loadUser();
+    loadDashboard();
   </script>
 </body>
 </html>
