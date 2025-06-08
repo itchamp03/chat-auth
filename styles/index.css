@@ -40,6 +40,8 @@ button {
         transform 0.12s;
     box-shadow: 0 2px 12px 0 rgba(60,60,67,0.04);
     outline: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 button:hover, button:focus {
