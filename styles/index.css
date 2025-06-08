@@ -47,7 +47,7 @@ button:hover, button:focus {
     color: #fff;
     border: 1px solid #4caf50;
     box-shadow: 0 4px 24px 0 rgba(60,60,67,0.10);
-    transform: translateY(-2px) scale(1.03);
+    transform: translateY(-2px) scale(1.05);
 }
 
 @media (max-width: 600px) {

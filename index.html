@@ -6,9 +6,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <h1>welcome to <span style="color:#4caf50;">sprout-investing</span></h1>
-  <p style="margin-bottom:2.5rem; color:#555; font-size:1.5rem;">start <span style="color:#4caf50;">investing</span> now.</p>
+  <h1>
+    welcome to <span id="typewriter" style="color:#4caf50;">sprout-investing</span>
+  </h1>
+  <p style="margin-bottom:2.5rem; color:#555; font-size:1.5rem;">financial literacy made <span style="color:#4caf50;">simple</span></p>
   <button onclick="window.location.href='signup.html'">sign up</button>
   <button onclick="window.location.href='signin.html'">sign in</button>
+
+  <script>
+    const phrases = [
+      "sprout-investing",
+      "the future",
+      "your portfolio",
+      "financial freedom",
+      "smart investing"
+    ];
+    const typewriterSpan = document.getElementById("typewriter");
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let typing = true;
+
+    function type() {
+      const currentPhrase = phrases[phraseIndex];
+      if (typing) {
+        if (charIndex < currentPhrase.length) {
+          typewriterSpan.textContent = currentPhrase.slice(0, charIndex + 1);
+          charIndex++;
+          setTimeout(type, 80);
+        } else {
+          typing = false;
+          setTimeout(type, 1200);
+        }
+      } else {
+        if (charIndex > 0) {
+          typewriterSpan.textContent = currentPhrase.slice(0, charIndex - 1);
+          charIndex--;
+          setTimeout(type, 40);
+        } else {
+          typing = true;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          setTimeout(type, 400);
+        }
+      }
+    }
+    type();
+  </script>
 </body>
 </html>
