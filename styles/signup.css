@@ -41,37 +41,37 @@ input[type="password"] {
 input[type="email"]:focus,
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border: 1.5px solid #18181b;
-    background: #18181b;
-    color: #fff;
+    border: 1.5px solid #4caf50;   /* green border */
+    background: #4caf50;           /* green background */
+    color: #fff;                   /* white text */
     box-shadow: 0 2px 12px 0 rgba(60,60,67,0.10);
 }
 
 input[type="email"]:focus::placeholder,
 input[type="text"]:focus::placeholder,
 input[type="password"]:focus::placeholder {
-    color: #bbb;
+    color: #e0f2e9; /* lighter greenish placeholder for contrast */
     opacity: 1;
 }
 
 /* Remove blue autofill background in Chrome */
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 1000px #18181b inset !important;
-    box-shadow: 0 0 0 1000px #18181b inset !important;
+    -webkit-box-shadow: 0 0 0 1000px #4caf50 inset !important;
+    box-shadow: 0 0 0 1000px #4caf50 inset !important;
     -webkit-text-fill-color: #fff !important;
     color: #fff !important;
-    border: 1.5px solid #18181b !important;
+    border: 1.5px solid #4caf50 !important;
     transition: background-color 5000s ease-in-out 0s;
 }
 
 /* Remove blue autofill background in Firefox */
 input:-moz-autofill,
 input:-moz-autofill:focus {
-    box-shadow: 0 0 0 1000px #18181b inset !important;
+    box-shadow: 0 0 0 1000px #4caf50 inset !important;
     -moz-text-fill-color: #fff !important;
     color: #fff !important;
-    border: 1.5px solid #18181b !important;
+    border: 1.5px solid #4caf50 !important;
 }
 
 button {
@@ -90,9 +90,9 @@ button {
 }
 
 button:hover, button:focus {
-    background: #18181b;
+    background: #4caf50;    /* green background */
     color: #fff;
-    border: 1px solid #18181b;
+    border: 1px solid #4caf50;
     box-shadow: 0 4px 24px 0 rgba(60,60,67,0.10);
     transform: translateY(-2px) scale(1.03);
 }
