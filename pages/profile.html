@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dashboard</title>
-  <script src="config.js"></script>
+  <title>sprout-investing</title>
+  <link rel="stylesheet" href="../styles/profile.css">
+  <link rel="stylesheet" href="../styles/sidebar.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <link rel="stylesheet" href="styles/dashboard.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../config.js"></script>
 </head>
 <body>
+    <h1>Profile</h1>
+    <div class="profile-section" id="profile-section" style="display:none;">
+        <div class="profile-details">
+            <h2 id="profile-name"></h2>
+            <p id="profile-email"></p>
+            <p id="profile-joined"></p>
+        </div>
+    </div>
+    <button id="logoutBtn" title="log out">⎋</button>
+    <div id="profile-loading">Loading...</div>
   <nav class="sidebar">
     <ul>
       <li>
@@ -99,84 +110,39 @@
         </a>
       </li>
     </ul>
-  </nav>
-  <header>
-    <h2>dashboard</h2>
-    <button id="logoutBtn" title="log out">⎋</button>
-  </header>
-  <main class="grid">
-    <a class="card" href="portfolio.html">
-      <h3>portfolio</h3>
-      <p id="portfolio">$—</p>
-      <p id="percent-change">—%</p>
-    </a>
-    <a class="card" href="learn.html">
-      <h3>learn</h3>
-      <ul id="portfolioList">
-        <li>—</li>
-        <li>—</li>
-        <li>—</li>
-      </ul>
-    </a>
-    <a class="card" href="research.html">
-      <h3>research</h3>
-      <ul id="portfolioList">
-        <li>—</li>
-        <li>—</li>
-        <li>—</li>
-      </ul>
-    </a>
-    <a class="card" href="trade.html">
-      <h3>trade</h3>
-      <p>buy &amp; sell stocks</p>
-    </a>
-  </main>
-  <script>
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </nav>    
+    <script>
+      // Initialize Supabase using config.js variables
+      const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    async function loadDashboard() {
-      // Auth check
-      const { data: { user } } = await supabaseClient.auth.getUser();
-      if (!user) {
-        window.location.href = "signin.html";
-        return;
-      }
-
-      // Fetch user profile (net worth, balance, portfolio)
-      const { data: profile, error } = await supabaseClient
-        .from("profiles")
-        .select("networth, balance, portfolio")
-        .eq("id", user.id)
-        .single();
-
-      if (!error && profile) {
-        document.getElementById("networth").textContent = profile.networth !== undefined ? `$${Number(profile.networth).toLocaleString()}` : "$—";
-        document.getElementById("balance").textContent = profile.balance !== undefined ? `$${Number(profile.balance).toLocaleString()}` : "$—";
-        // Portfolio: show up to 3 stocks
-        const portfolioList = document.getElementById("portfolioList");
-        portfolioList.innerHTML = "";
-        if (profile.portfolio && Array.isArray(profile.portfolio) && profile.portfolio.length > 0) {
-          profile.portfolio.slice(0, 3).forEach(stock => {
-            const li = document.createElement("li");
-            li.textContent = stock;
-            portfolioList.appendChild(li);
-          });
-        } else {
-          for (let i = 0; i < 3; i++) {
-            const li = document.createElement("li");
-            li.textContent = "—";
-            portfolioList.appendChild(li);
-          }
+      async function loadProfile() {
+        const { data, error } = await supabaseClient.auth.getUser();
+        if (error || !data || !data.user) {
+          document.getElementById('profile-loading').innerText = 'Not logged in.';
+          return;
         }
+        const user = data.user;
+
+        // Fetch username from your custom table (e.g., 'profiles')
+        let username = 'No Username';
+        const { data: profile, error: profileError } = await supabaseClient
+          .from('profiles')
+          .select('username')
+          .eq('id', user.id) // <-- use 'id' instead of 'uuid'
+          .single();
+
+        if (profile && profile.username) {
+          username = profile.username;
+        }
+
+        document.getElementById('profile-section').style.display = 'flex';
+        document.getElementById('profile-loading').style.display = 'none';
+        document.getElementById('profile-name').innerText = username;
+        document.getElementById('profile-email').innerText = user.email;
+        document.getElementById('profile-joined').innerText = 'Joined: ' + new Date(user.created_at).toLocaleDateString();
       }
-    }
 
-    document.getElementById("logoutBtn").onclick = async () => {
-      await supabaseClient.auth.signOut();
-      window.location.href = "index.html";
-    };
-
-    loadDashboard();
-  </script>
+      loadProfile();
+    </script>
 </body>
 </html>

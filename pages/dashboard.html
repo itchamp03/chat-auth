@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <script src="../config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <link rel="stylesheet" href="../styles/dashboard.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <nav class="sidebar">
+    <ul>
+      <li>
+        <a href="dashboard.html" title="Dashboard">
+          <!-- Dashboard (Squares) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="2"/>
+            <rect x="14" y="3" width="7" height="7" rx="2"/>
+            <rect x="14" y="14" width="7" height="7" rx="2"/>
+            <rect x="3" y="14" width="7" height="7" rx="2"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="portfolio.html" title="My Portfolio">
+          <!-- Portfolio (Folder) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7a2 2 0 0 1 2-2h3l2 3h9a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="trade.html" title="Trade">
+          <!-- Trade (Arrows) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"/>
+            <path d="M21 5H3"/>
+            <polyline points="7 23 3 19 7 15"/>
+            <path d="M3 19h18"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="research.html" title="Research">
+          <!-- Research (Magnifying Glass) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="learn.html" title="Learn">
+          <!-- Learn (Book) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 19.5A2.5 2.5 0 0 1 4.5 17H20"/>
+            <path d="M2 4.5A2.5 2.5 0 0 1 4.5 2H20v20H4.5A2.5 2.5 0 0 1 2 19.5z"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="stats.html" title="Stats">
+          <!-- Stats (Bar Chart) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="20" x2="12" y2="10"/>
+            <line x1="18" y1="20" x2="18" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="16"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="leaderboard.html" title="Leaderboard">
+          <!-- Leaderboard (Trophy) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 21h8"/>
+            <path d="M12 17v4"/>
+            <path d="M7 4h10v7a5 5 0 0 1-10 0z"/>
+            <path d="M17 4a5 5 0 0 0 5 5"/>
+            <path d="M7 4a5 5 0 0 1-5 5"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="profile.html" title="Profile">
+          <!-- Profile (User) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="7" r="4"/>
+            <path d="M5.5 21a8.38 8.38 0 0 1 13 0"/>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href="settings.html" title="Settings">
+          <!-- Settings (Gear) -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <header>
+    <h2>dashboard</h2>
+    <button id="logoutBtn" title="log out">⎋</button>
+  </header>
+  <main class="grid">
+    <a class="card" href="portfolio.html">
+      <h3>your portfolio</h3>
+      <p id="portfolio">$—</p>
+      <p id="percent-change">—%</p>
+    </a>
+    <a class="card" href="learn.html">
+      <h3>learn</h3>
+      <ul id="portfolioList">
+        <li>—</li>
+        <li>—</li>
+        <li>—</li>
+      </ul>
+    </a>
+    <a class="card" href="research.html">
+      <h3>research</h3>
+      <ul id="portfolioList">
+        <li>—</li>
+        <li>—</li>
+        <li>—</li>
+      </ul>
+    </a>
+    <a class="card" href="trade.html">
+      <h3>trade</h3>
+      <p>buy &amp; sell stocks</p>
+    </a>
+  </main>
+  <script>
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function loadDashboard() {
+      // Auth check
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (!user) {
+        window.location.href = "signin.html";
+        return;
+      }
+
+      // Fetch user profile (net worth, balance, portfolio)
+      const { data: profile, error } = await supabaseClient
+        .from("profiles")
+        .select("networth, balance, portfolio")
+        .eq("id", user.id)
+        .single();
+
+      if (!error && profile) {
+        document.getElementById("networth").textContent = profile.networth !== undefined ? `$${Number(profile.networth).toLocaleString()}` : "$—";
+        document.getElementById("balance").textContent = profile.balance !== undefined ? `$${Number(profile.balance).toLocaleString()}` : "$—";
+        // Portfolio: show up to 3 stocks
+        const portfolioList = document.getElementById("portfolioList");
+        portfolioList.innerHTML = "";
+        if (profile.portfolio && Array.isArray(profile.portfolio) && profile.portfolio.length > 0) {
+          profile.portfolio.slice(0, 3).forEach(stock => {
+            const li = document.createElement("li");
+            li.textContent = stock;
+            portfolioList.appendChild(li);
+          });
+        } else {
+          for (let i = 0; i < 3; i++) {
+            const li = document.createElement("li");
+            li.textContent = "—";
+            portfolioList.appendChild(li);
+          }
+        }
+      }
+    }
+
+    document.getElementById("logoutBtn").onclick = async () => {
+      await supabaseClient.auth.signOut();
+      window.location.href = "index.html";
+    };
+
+    loadDashboard();
+  </script>
+</body>
+</html>
